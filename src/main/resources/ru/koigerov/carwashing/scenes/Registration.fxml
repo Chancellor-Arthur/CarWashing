@@ -7,31 +7,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: darkred;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.republic.library.controllers.RegistrationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #0e1621;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.republic.library.controllers.RegistrationController">
     <children>
-        <AnchorPane layoutY="102.0" prefHeight="498.0" prefWidth="800.0" style="-fx-background-color: white;">
+        <AnchorPane layoutY="102.0" prefHeight="498.0" prefWidth="800.0" style="-fx-background-color: #17212b;">
             <children>
-                <Label layoutX="290.0" layoutY="101.0" text="Регистрация">
+                <Label layoutX="290.0" layoutY="101.0" text="Регистрация" textFill="WHITE">
                     <font>
                         <Font name="Arial" size="36.0" />
                     </font>
                 </Label>
-                <TextField fx:id="InputFieldLogin" layoutX="255.0" layoutY="165.0" prefHeight="43.0" prefWidth="289.0" promptText="Логин">
+                <TextField fx:id="InputFieldLogin" layoutX="255.0" layoutY="165.0" prefHeight="43.0" prefWidth="289.0" promptText="Логин" style="-fx-background-color: #0e1621;">
                     <font>
                         <Font name="Arial" size="18.0" />
                     </font>
                 </TextField>
-                <PasswordField fx:id="InputFieldPassword" layoutX="255.0" layoutY="228.0" prefHeight="43.0" prefWidth="290.0" promptText="Пароль">
+                <PasswordField fx:id="InputFieldPassword" layoutX="255.0" layoutY="228.0" prefHeight="43.0" prefWidth="290.0" promptText="Пароль" style="-fx-background-color: #0e1621;">
                     <font>
                         <Font name="Arial" size="18.0" />
                     </font>
                 </PasswordField>
-                <Button fx:id="ButtonSignUp" layoutX="293.0" layoutY="355.0" mnemonicParsing="false" onAction="#SignUp" prefHeight="42.0" prefWidth="205.0" style="-fx-background-color: yellow; -fx-cursor: hand;" text="Зарегистрироваться">
+                <Button fx:id="ButtonSignUp" layoutX="293.0" layoutY="355.0" mnemonicParsing="false" onAction="#SignUp" prefHeight="42.0" prefWidth="205.0" style="-fx-background-color: #5eb5f7; -fx-cursor: hand;" text="Зарегистрироваться" textFill="WHITE">
                     <font>
                         <Font name="Arial" size="18.0" />
                     </font>
                 </Button>
-            <PasswordField fx:id="InputFieldPasswordAgain" layoutX="255.0" layoutY="292.0" prefHeight="43.0" prefWidth="290.0" promptText="Повторите пароль">
+            <PasswordField fx:id="InputFieldPasswordAgain" layoutX="255.0" layoutY="292.0" prefHeight="43.0" prefWidth="290.0" promptText="Повторите пароль" style="-fx-background-color: #0e1621;">
                <font>
                   <Font name="Arial" size="18.0" />
                </font>
@@ -43,7 +43,7 @@
                 <Font name="Arial" size="48.0" />
             </font>
         </Label>
-        <Button fx:id="ButtonGoToSignIn" layoutX="647.0" layoutY="24.0" mnemonicParsing="false" onAction="#GoToSignIn" prefHeight="28.0" prefWidth="130.0" style="-fx-background-color: orange; -fx-cursor: hand;" text="Вход">
+        <Button fx:id="ButtonGoToSignIn" layoutX="647.0" layoutY="24.0" mnemonicParsing="false" onAction="#GoToSignIn" prefHeight="28.0" prefWidth="130.0" style="-fx-background-color: #5eb5f7; -fx-cursor: hand;" text="Вход" textFill="WHITE">
             <font>
                 <Font name="Arial" size="18.0" />
             </font>

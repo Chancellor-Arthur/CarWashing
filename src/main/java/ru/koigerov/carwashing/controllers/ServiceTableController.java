@@ -6,25 +6,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class AdminPanelController {
+public class ServiceTableController {
 
     @FXML
-    private Button ButtonGoToRecord;
+    private Button ButtonGoToAdminPanel;
 
     @FXML
-    private Button ButtonGoToService;
-
-    @FXML
-    private Button ButtonGoToUsersTable;
+    private Button ButtonGoToServiceCreate;
 
     @FXML
     private TableColumn<?, ?> TableColumnAction;
-
-    @FXML
-    private TableColumn<?, ?> TableColumnCar;
-
-    @FXML
-    private TableColumn<?, ?> TableColumnDate;
 
     @FXML
     private TableColumn<?, ?> TableColumnDuration;
@@ -36,17 +27,12 @@ public class AdminPanelController {
     private TableView<?> TableViewLogs;
 
     @FXML
-    void GoToRecord(ActionEvent event) {
+    void GoToAdminPanel(ActionEvent event) {
 
     }
 
     @FXML
-    void GoToService(ActionEvent event) {
-
-    }
-
-    @FXML
-    void GoToUsersTable(ActionEvent event) {
+    void GoToServiceCreate(ActionEvent event) {
 
     }
 
