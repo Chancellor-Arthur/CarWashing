@@ -1,8 +1,8 @@
 package ru.koigerov.carwashing.controllers;
 
-import com.republic.library.db.DBManager;
-import com.republic.library.store.Store;
-import com.republic.library.utils.Alerts;
+import ru.koigerov.carwashing.db.DBManager;
+import ru.koigerov.carwashing.store.Store;
+import ru.koigerov.carwashing.utils.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,7 +45,11 @@ public class AuthorizationController {
         if (user.next()) {
             Store.isAdmin = user.getBoolean("is_admin");
             Store.userId = user.getInt("id");
-            new SceneController().switchToLibraryScene(event);
+            if (Store.isAdmin) {
+                new SceneController().switchToAdminPanelScene(event);
+                return;
+            }
+            new SceneController().switchToHistoryScene(event);
         } else {
             Alerts.showErrorAlert("Неверный логин/пароль!");
         }

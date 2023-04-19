@@ -1,7 +1,6 @@
 package ru.koigerov.carwashing.entities;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public final class Record {
     private final int id;

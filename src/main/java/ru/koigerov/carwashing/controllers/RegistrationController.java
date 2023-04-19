@@ -1,7 +1,7 @@
 package ru.koigerov.carwashing.controllers;
 
-import com.republic.library.db.DBManager;
-import com.republic.library.utils.Alerts;
+import ru.koigerov.carwashing.db.DBManager;
+import ru.koigerov.carwashing.utils.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -56,7 +56,7 @@ public class RegistrationController {
             return;
         }
 
-        DBManager.createUser(InputFieldLogin.getText().trim(), InputFieldPassword.getText().trim());
+        DBManager.createUser(InputFieldLogin.getText().trim(), InputFieldPassword.getText().trim(), false);
         new SceneController().switchToAuthorizationScene(event);
         Alerts.showSuccessAlert("Пользователь создан!");
     }

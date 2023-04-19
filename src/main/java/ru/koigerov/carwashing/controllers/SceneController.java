@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,11 +24,11 @@ public final class SceneController {
     }
 
     public void switchToHistoryScene(Event event) throws IOException {
-        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/History.fxml");
+        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/UserHistory.fxml");
     }
 
     public void switchToCreateServiceScene(Event event) throws IOException {
-        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/CreateService.fxml");
+        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/ServiceCreate.fxml");
     }
 
     public void switchToShowServiceScene(Event event) throws IOException {
@@ -37,11 +36,11 @@ public final class SceneController {
     }
 
     public void switchToCreateUserScene(Event event) throws IOException {
-        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/CreateUser.fxml");
+        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/UserCreate.fxml");
     }
 
     public void switchToShowUsersScene(Event event) throws IOException {
-        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/ShowUsers.fxml");
+        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/UsersTable.fxml");
     }
 
     public void switchToAdminPanelScene(Event event) throws IOException {

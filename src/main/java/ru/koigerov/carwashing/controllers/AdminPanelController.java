@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import java.io.IOException;
+
 public class AdminPanelController {
 
     @FXML
@@ -36,18 +38,18 @@ public class AdminPanelController {
     private TableView<?> TableViewLogs;
 
     @FXML
-    void GoToRecord(ActionEvent event) {
-
+    void GoToRecord(ActionEvent event) throws IOException {
+        new SceneController().switchToRecordScene(event);
     }
 
     @FXML
-    void GoToService(ActionEvent event) {
-
+    void GoToService(ActionEvent event) throws IOException {
+        new SceneController().switchToShowServiceScene(event);
     }
 
     @FXML
-    void GoToUsersTable(ActionEvent event) {
-
+    void GoToUsersTable(ActionEvent event) throws IOException {
+        new SceneController().switchToShowUsersScene(event);
     }
 
 }
