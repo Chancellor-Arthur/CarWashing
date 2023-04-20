@@ -14,13 +14,13 @@
             <children>
                 <TableView fx:id="TableViewLogs" layoutX="24.0" layoutY="62.0" prefHeight="408.0" prefWidth="744.0" style="-fx-background-color: #0e1621; -fx-text-fill: #fff; -fx-prompt-text-fill: #fff;">
                     <columns>
-                        <TableColumn fx:id="TableColumnService" prefWidth="255.76116561889648" text="Услуга" />
-                        <TableColumn fx:id="TableColumnDuration" minWidth="0.0" prefWidth="216.3582763671875" text="Время" />
-                        <TableColumn fx:id="TableColumnAction" minWidth="0.0" prefWidth="227.8209228515625" text="Действия" />
+                        <TableColumn fx:id="TableColumnService" prefWidth="295.1641216278076" text="Услуга" />
+                        <TableColumn fx:id="TableColumnDuration" minWidth="0.0" prefWidth="271.5224609375" text="Время" />
+                        <TableColumn fx:id="TableColumnAction" minWidth="0.0" prefWidth="173.3731689453125" text="Действия" />
                     </columns>
                 </TableView>
                 <Accordion layoutX="155.0" layoutY="335.0" />
-                <Label layoutX="24.0" layoutY="20.0" prefHeight="27.0" prefWidth="85.0" text="Записи" textFill="WHITE">
+                <Label layoutX="24.0" layoutY="20.0" prefHeight="27.0" prefWidth="85.0" text="Услуги" textFill="WHITE">
                     <font>
                         <Font name="Arial" size="24.0" />
                     </font>

@@ -86,7 +86,7 @@ public final class DBManager {
         return statement.executeQuery();
     }
 
-    public static ResultSet getAllRecordForDay(Date date) throws SQLException {
+    public static ResultSet getAllRecordForDay(LocalDate date) throws SQLException {
         String query = "SELECT * FROM record WHERE date = ?";
 
         PreparedStatement statement = getConnection().prepareStatement(query);

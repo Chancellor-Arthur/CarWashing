@@ -33,10 +33,22 @@ public class ServiceCreateController {
     @FXML
     void ServiceCreate(ActionEvent event) throws IOException, SQLException {
         var serviceName = InputFieldService.getText().trim();
-        var duration = InputFieldDuration.getText().trim();
+        var durationInput = InputFieldDuration.getText().trim();
 
-        if (duration.equals("") || serviceName.equals("")) {
+        if (durationInput.equals("") || serviceName.equals("")) {
             Alerts.showErrorAlert("Введите название услуги/длительность!");
+            return;
+        }
+
+        if (!durationInput.matches("-?\\d+(\\.\\d+)?")) {
+            Alerts.showErrorAlert("Длительность должно быть числом");
+            return;
+        }
+
+        var duration = Integer.parseInt(durationInput);
+
+        if (duration <= 15 || duration >= 120) {
+            Alerts.showErrorAlert("Услуга длиться минимум 15 минут, максимум 120");
             return;
         }
 
@@ -47,12 +59,9 @@ public class ServiceCreateController {
             return;
         }
 
-        if (!duration.matches("-?\\d+(\\.\\d+)?")) {
-            Alerts.showErrorAlert("Длительность должно быть числом");
-            return;
-        }
 
-        DBManager.createService(new Service(-1, serviceName, Integer.parseInt(duration)));
+
+        DBManager.createService(new Service(-1, serviceName, duration));
         new SceneController().switchToShowServiceScene(event);
         Alerts.showSuccessAlert("Сервис создан создан!");
     }

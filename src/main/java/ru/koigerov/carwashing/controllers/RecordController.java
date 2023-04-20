@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import ru.koigerov.carwashing.utils.Alerts;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.*;
 import java.time.LocalDate;
@@ -52,8 +51,31 @@ public class RecordController {
         new SceneController().switchToHistoryScene(event);
     }
 
+
+    @FXML
+    void onChangeDate(ActionEvent event) throws SQLException {
+        List<String> availableTimes = getAvailableTimes(DatePicker.getValue());
+        SelectTime.setItems(FXCollections.observableList(availableTimes));
+    }
+
+    @FXML
+    void onChangeService(ActionEvent event) throws SQLException {
+        List<String> availableTimes = getAvailableTimes(DatePicker.getValue());
+        SelectTime.setItems(FXCollections.observableList(availableTimes));
+    }
+
     @FXML
     void SaveRecord(ActionEvent event) throws SQLException {
+        var car = TextFieldCar.getText().trim();
+        var date = DatePicker.getValue();
+        var time = SelectTime.getValue();
+        var service = SelectService.getValue();
+
+        if (car.equals("") || date.equals("") || time.equals("") || service.equals("")) {
+            Alerts.showErrorAlert("Должны быть заполнены все поля");
+            return;
+        }
+
         var record = new Record(-1, Store.userId, TextFieldCar.getText().trim(), SelectService.getValue(),
                 DatePicker.getValue(), SelectTime.getValue());
         DBManager.createRecord(record);
@@ -66,9 +88,28 @@ public class RecordController {
         var service = DBManager.getAllService();
         while (service.next()) serviceNameList.add(service.getString("service_name"));
 
-        var records = DBManager.getAllRecordForDay(Date.valueOf(LocalDate.now()));
+        List<String> availableTimes = getAvailableTimes(LocalDate.now());
+
+        DatePicker.setValue(LocalDate.now());
+        SelectService.setItems(serviceNameList);
+        SelectTime.setItems(FXCollections.observableList(availableTimes));
+
+        ButtonGoToAdminPanel.setVisible(Store.isAdmin);
+        ButtonGoToHistory.setVisible(!Store.isAdmin);
+    }
+
+    private List<String> getAvailableTimes(LocalDate date) throws SQLException {
+        var records = DBManager.getAllRecordForDay(date);
 
         var servicesDuration = new HashMap<String, Integer>();
+
+        var selectedService = DBManager.getService(SelectService.getValue());
+        Integer selectedDuration = 0;
+        if (selectedService.next()) {
+            selectedDuration = selectedService.getInt("duration");
+        }
+
+        Alerts.showErrorAlert(String.valueOf(selectedDuration));
 
         while (records.next()) {
             var services = DBManager.getServiceById(records.getInt("service_id"));
@@ -85,22 +126,62 @@ public class RecordController {
             if (duration == null) continue;
             if (duration.compareTo(30) <= 0) {
                 availableTimes.remove(times.get(i));
+                if (selectedDuration.compareTo(60) <= 0) {
+                    availableTimes.remove(times.get(i));
+                    availableTimes.remove(times.get(i - 1));
+                    i += 1;
+                    continue;
+                }
+                if (selectedDuration.compareTo(90) <= 0) {
+                    availableTimes.remove(times.get(i));
+                    availableTimes.remove(times.get(i - 1));
+                    availableTimes.remove(times.get(i - 2));
+                    i += 2;
+                    continue;
+                }
+                if (selectedDuration.compareTo(120) <= 0) {
+                    availableTimes.remove(times.get(i));
+                    availableTimes.remove(times.get(i - 1));
+                    availableTimes.remove(times.get(i - 2));
+                    availableTimes.remove(times.get(i - 3));
+                    i += 3;
+                }
                 continue;
             }
             if (duration.compareTo(60) <= 0) {
                 availableTimes.remove(times.get(i));
                 availableTimes.remove(times.get(i + 1));
                 i += 1;
+                if (selectedDuration.compareTo(60) <= 0) {
+                    availableTimes.remove(times.get(i));
+                    availableTimes.remove(times.get(i - 1));
+                    i += 1;
+                    continue;
+                }
+                if (selectedDuration.compareTo(90) <= 0) {
+                    availableTimes.remove(times.get(i));
+                    availableTimes.remove(times.get(i - 1));
+                    availableTimes.remove(times.get(i - 2));
+                    i += 2;
+                    continue;
+                }
+                if (selectedDuration.compareTo(120) <= 0) {
+                    availableTimes.remove(times.get(i));
+                    availableTimes.remove(times.get(i - 1));
+                    availableTimes.remove(times.get(i - 2));
+                    availableTimes.remove(times.get(i - 3));
+                    i += 3;
+                }
                 continue;
             }
-            if (duration.compareTo(90) <= 0) {
+            if (selectedDuration.compareTo(90) <= 0) {
                 availableTimes.remove(times.get(i));
                 availableTimes.remove(times.get(i + 1));
                 availableTimes.remove(times.get(i + 2));
                 i += 2;
                 continue;
             }
-            if (duration.compareTo(120) <= 0) {
+            if (selectedDuration.compareTo(120) <= 0) {
                 availableTimes.remove(times.get(i));
                 availableTimes.remove(times.get(i + 1));
                 availableTimes.remove(times.get(i + 2));
@@ -109,11 +190,7 @@ public class RecordController {
             }
         }
 
-        DatePicker.setValue(LocalDate.now());
-        SelectService.setItems(serviceNameList);
-        SelectTime.setItems(FXCollections.observableList(availableTimes));
-
-        ButtonGoToAdminPanel.setVisible(Store.isAdmin);
-        ButtonGoToHistory.setVisible(!Store.isAdmin);
+        return availableTimes;
     }
+
 }
