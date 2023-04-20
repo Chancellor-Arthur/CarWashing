@@ -95,22 +95,6 @@ public final class DBManager {
         return statement.executeQuery();
     }
 
-    public static ResultSet getAllRecordsForThreeDays() throws SQLException, ParseException {
-        String query = "SELECT * FROM record WHERE date > ?";
-
-        PreparedStatement statement = getConnection().prepareStatement(query);
-
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        calendar.setTime(sdf.parse(String.valueOf(LocalDate.now())));
-        calendar.add(Calendar.DATE, -3);
-        var date = calendar.getTime();
-
-        statement.setDate(1, (Date) date);
-
-        return statement.executeQuery();
-    }
-
     public static ResultSet getRecord(int id) throws SQLException {
         String query = "SELECT * FROM record WHERE id = ?";
 
