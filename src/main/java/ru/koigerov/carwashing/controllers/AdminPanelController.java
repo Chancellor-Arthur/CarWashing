@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class AdminPanelController {
 
@@ -30,6 +32,9 @@ public class AdminPanelController {
 
     @FXML
     private Button ButtonGoToUsersTable;
+
+    @FXML
+    private ComboBox<String> ServiceFilter;
 
     @FXML
     private TableColumn<Record, Button> TableColumnAction;
@@ -65,12 +70,26 @@ public class AdminPanelController {
     }
 
     @FXML
-    public void initialize() throws SQLException {
-        showRecord();
+    void FilterServices(ActionEvent event) throws SQLException {
+        String service;
+        if (Objects.equals(ServiceFilter.getValue(), "Не выбрано")) service = null;
+        else service = ServiceFilter.getValue();
+        showRecord(service);
     }
 
-    private void showRecord() throws SQLException {
-        ObservableList<Record> list = getRecordList();
+    @FXML
+    public void initialize() throws SQLException {
+        ObservableList<String> serviceNameList = FXCollections.observableArrayList();
+        var service = DBManager.getAllService();
+        while (service.next()) serviceNameList.add(service.getString("service_name"));
+        serviceNameList.add("Не выбрано");
+        ServiceFilter.setItems(serviceNameList);
+
+        showRecord(null);
+    }
+
+    private void showRecord(String neededService) throws SQLException {
+        ObservableList<Record> list = getRecordList(neededService);
 
         TableColumnCar.setCellValueFactory(new PropertyValueFactory<Record, String>("car"));
         TableColumnDuration.setCellValueFactory(new PropertyValueFactory<Record, String>("time"));
@@ -91,7 +110,7 @@ public class AdminPanelController {
         TableViewLogs.setItems(list);
     }
 
-    public ObservableList<Record> getRecordList() throws SQLException {
+    public ObservableList<Record> getRecordList(String neededService) throws SQLException {
         ObservableList<Record> recordList = FXCollections.observableArrayList();
 
         var allRecords = DBManager.getAllRecords(false);
@@ -120,7 +139,8 @@ public class AdminPanelController {
                             allRecords.getDate("date").toLocalDate(),
                             allRecords.getString("time")
                     );
-            recordList.add(record);
+            if (neededService == null) recordList.add(record);
+            if (Objects.equals(neededService, record.getService())) recordList.add(record);
         }
         return recordList;
     }
