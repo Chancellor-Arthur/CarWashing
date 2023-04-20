@@ -3,7 +3,6 @@ package ru.koigerov.carwashing.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import ru.koigerov.carwashing.db.DBManager;
 import ru.koigerov.carwashing.entities.Service;

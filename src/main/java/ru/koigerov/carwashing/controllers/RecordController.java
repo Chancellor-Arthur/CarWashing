@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import ru.koigerov.carwashing.db.DBManager;
 import ru.koigerov.carwashing.entities.Record;
-import ru.koigerov.carwashing.entities.Service;
 import ru.koigerov.carwashing.store.Store;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +18,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.*;
 import java.time.LocalDate;
-import java.util.stream.Stream;
 
 public class RecordController {
 

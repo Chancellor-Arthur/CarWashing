@@ -150,6 +150,8 @@ public final class DBManager {
         var service = getServiceByName(record.getService());
         if (service.next()) serviceId = service.getInt("id");
 
+        if (serviceId == -1) return;
+
         String query = "INSERT INTO record (user_id, service_id, car_name, date, time) VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement statement = getConnection().prepareStatement(query);
