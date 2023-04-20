@@ -39,6 +39,11 @@ public final class SceneController {
         defaultSwitch(event, "/ru/koigerov/carwashing/scenes/UserCreate.fxml");
     }
 
+    public void switchToProfile(Event event) throws IOException {
+        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/Profile.fxml");
+    }
+
+
     public void switchToShowUsersScene(Event event) throws IOException {
         defaultSwitch(event, "/ru/koigerov/carwashing/scenes/UsersTable.fxml");
     }

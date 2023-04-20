@@ -42,6 +42,17 @@ public final class DBManager {
         return statement.executeQuery();
     }
 
+    public static ResultSet getUser(int id) throws SQLException {
+        String query = "SELECT * FROM users WHERE id = ?";
+
+        PreparedStatement statement = getConnection().prepareStatement(query);
+        statement.setInt(1, id);
+
+        return statement.executeQuery();
+    }
+
+
+
     public static ResultSet getService(String serviceName) throws SQLException {
         String query = "SELECT * FROM service WHERE service_name = ?";
 
@@ -170,6 +181,19 @@ public final class DBManager {
 
         statement.executeUpdate();
     }
+
+    public static void updateUser(String login, String password, Boolean isAdmin, int id) throws SQLException {
+        String query = "UPDATE users SET login = ?, password = ?, is_admin = ? WHERE id = ?";
+
+        PreparedStatement statement = getConnection().prepareStatement(query);
+        statement.setString(1, login);
+        statement.setString(2, password);
+        statement.setBoolean(3, isAdmin);
+        statement.setInt(4, id);
+
+        statement.executeUpdate();
+    }
+
 
     public static void removeUser(int id) throws SQLException {
         String query = "DELETE FROM users WHERE id = ?";

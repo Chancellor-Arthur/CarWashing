@@ -27,6 +27,9 @@ public class UserHistoryController {
     private Button ButtonGoToRecord;
 
     @FXML
+    private Button ButtonGoToProfile;
+
+    @FXML
     private TableColumn<Record, Button> TableColumnAction;
 
     @FXML
@@ -50,6 +53,11 @@ public class UserHistoryController {
     @FXML
     void GoToRecord(ActionEvent event) throws IOException {
         new SceneController().switchToRecordScene(event);
+    }
+
+    @FXML
+    void GoToProfile(ActionEvent event) throws IOException {
+        new SceneController().switchToProfile(event);
     }
 
 
