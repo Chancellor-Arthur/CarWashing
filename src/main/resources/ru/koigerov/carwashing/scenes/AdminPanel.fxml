@@ -23,7 +23,7 @@
                         <TableColumn fx:id="TableColumnDuration" minWidth="0.0" prefWidth="157.6119384765625"
                                      text="Время"/>
                         <TableColumn fx:id="TableColumnDate" minWidth="0.0" prefWidth="129.67156982421875" text="Дата"/>
-                        <TableColumn fx:id="TableColumnAction" minWidth="0.0" prefWidth="140.41795826022053"
+                        <TableColumn fx:id="TableColumnAction" minWidth="0.0" prefWidth="132.800048828125"
                                      text="Действия"/>
                     </columns>
                 </TableView>

@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import ru.koigerov.carwashing.entities.Record;
 import ru.koigerov.carwashing.db.DBManager;
 import ru.koigerov.carwashing.entities.Service;
+import ru.koigerov.carwashing.utils.ActionButtonTableCell;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -31,7 +32,7 @@ public class AdminPanelController {
     private Button ButtonGoToUsersTable;
 
     @FXML
-    private TableColumn<Record, Date> TableColumnAction;
+    private TableColumn<Record, Button> TableColumnAction;
 
     @FXML
     private TableColumn<Record, String> TableColumnCar;
@@ -76,13 +77,24 @@ public class AdminPanelController {
         TableColumnDate.setCellValueFactory(new PropertyValueFactory<Record, LocalDate>("date"));
         TableColumnService.setCellValueFactory(new PropertyValueFactory<Record, Integer>("service"));
 
+
+        TableColumnAction.setCellFactory(ActionButtonTableCell.<Record>forTableColumn("Remove", (Record record) -> {
+            TableViewLogs.getItems().remove(record);
+            try {
+                DBManager.removeRecord(record.getId());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return record;
+        }));
+
         TableViewLogs.setItems(list);
     }
 
     public ObservableList<Record> getRecordList() throws SQLException {
         ObservableList<Record> recordList = FXCollections.observableArrayList();
 
-        var allRecords = DBManager.getAllRecords();
+        var allRecords = DBManager.getAllRecords(false);
         var allServices = DBManager.getAllService();
         List<Service> services = new ArrayList<>();
 

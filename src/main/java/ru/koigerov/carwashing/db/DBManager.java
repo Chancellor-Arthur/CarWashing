@@ -59,8 +59,10 @@ public final class DBManager {
         return statement.executeQuery();
     }
 
-    public static ResultSet getAllRecords() throws SQLException {
-        String query = "SELECT * FROM record";
+    public static ResultSet getAllRecords(boolean isDeleted) throws SQLException {
+        String query;
+        if (isDeleted) query = "SELECT * FROM record";
+        else query = "SELECT * FROM record WHERE deleted_at IS NULL";
 
         PreparedStatement statement = getConnection().prepareStatement(query);
 

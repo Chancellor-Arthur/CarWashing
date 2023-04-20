@@ -10,6 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import ru.koigerov.carwashing.db.DBManager;
 import ru.koigerov.carwashing.entities.User;
+import ru.koigerov.carwashing.utils.ActionButtonTableCell;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,7 +24,7 @@ public class UsersTableController {
     private Button ButtonGoToUserCreate;
 
     @FXML
-    private TableColumn<?, ?> TableColumnAction;
+    private TableColumn<User, Button> TableColumnAction;
 
     @FXML
     private TableColumn<User, String> TableColumnLogin;
@@ -58,6 +59,16 @@ public class UsersTableController {
         TableColumnLogin.setCellValueFactory(new PropertyValueFactory<User, String>("login"));
         TableColumnPassword.setCellValueFactory(new PropertyValueFactory<User, String>("password"));
         TableColumnIsAdmin.setCellValueFactory(new PropertyValueFactory<User, Boolean>("isAdmin"));
+
+        TableColumnAction.setCellFactory(ActionButtonTableCell.<User>forTableColumn("Remove", (User user) -> {
+            TableViewUsers.getItems().remove(user);
+            try {
+                DBManager.removeUser(user.getId());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return user;
+        }));
 
         TableViewUsers.setItems(list);
     }

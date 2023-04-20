@@ -10,6 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import ru.koigerov.carwashing.db.DBManager;
 import ru.koigerov.carwashing.entities.Service;
+import ru.koigerov.carwashing.utils.ActionButtonTableCell;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,7 +24,7 @@ public class ServiceTableController {
     private Button ButtonGoToServiceCreate;
 
     @FXML
-    private TableColumn<?, ?> TableColumnAction;
+    private TableColumn<Service, Button> TableColumnAction;
 
     @FXML
     private TableColumn<Service, Integer> TableColumnDuration;
@@ -55,6 +56,17 @@ public class ServiceTableController {
 
         TableColumnDuration.setCellValueFactory(new PropertyValueFactory<Service, Integer>("duration"));
         TableColumnService.setCellValueFactory(new PropertyValueFactory<Service, String>("name"));
+
+        TableColumnAction.setCellFactory(ActionButtonTableCell.<Service>forTableColumn("Remove", (Service service) -> {
+            TableViewLogs.getItems().remove(service);
+            try {
+                DBManager.removeService(service.getId());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return service;
+        }));
+
         TableViewLogs.setItems(list);
     }
 
