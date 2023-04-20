@@ -32,7 +32,7 @@ public final class SceneController {
     }
 
     public void switchToShowServiceScene(Event event) throws IOException {
-        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/ShowService.fxml");
+        defaultSwitch(event, "/ru/koigerov/carwashing/scenes/ServiceTable.fxml");
     }
 
     public void switchToCreateUserScene(Event event) throws IOException {

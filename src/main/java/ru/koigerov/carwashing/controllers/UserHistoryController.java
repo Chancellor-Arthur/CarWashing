@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import java.io.IOException;
+
 public class UserHistoryController {
 
     @FXML
@@ -30,8 +32,8 @@ public class UserHistoryController {
     private TableView<?> TableViewRecord;
 
     @FXML
-    void GoToRecord(ActionEvent event) {
-
+    void GoToRecord(ActionEvent event) throws IOException {
+        new SceneController().switchToRecordScene(event);
     }
 
 }

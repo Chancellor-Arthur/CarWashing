@@ -12,7 +12,8 @@ import java.util.Calendar;
 public final class DBManager {
     static final String DB_URL = "jdbc:postgresql://localhost:5432/car-washing";
     static final String DB_USERNAME = "postgres";
-    static final String DB_PASSWORD = "postgres";
+//    static final String DB_PASSWORD = "postgres";
+    static final String DB_PASSWORD = "password";
 
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
@@ -37,6 +38,15 @@ public final class DBManager {
 
         PreparedStatement statement = getConnection().prepareStatement(query);
         statement.setString(1, login);
+
+        return statement.executeQuery();
+    }
+
+    public static ResultSet getService(String serviceName) throws SQLException {
+        String query = "SELECT * FROM service WHERE service_name = ?";
+
+        PreparedStatement statement = getConnection().prepareStatement(query);
+        statement.setString(1, serviceName);
 
         return statement.executeQuery();
     }
@@ -168,7 +178,7 @@ public final class DBManager {
         PreparedStatement statement = getConnection().prepareStatement(query);
         statement.setString(1, login);
         statement.setString(2, password);
-        statement.setBoolean(2, isAdmin);
+        statement.setBoolean(3, isAdmin);
 
         statement.executeUpdate();
     }
