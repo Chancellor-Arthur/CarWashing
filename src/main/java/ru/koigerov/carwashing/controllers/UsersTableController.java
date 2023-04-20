@@ -9,13 +9,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import ru.koigerov.carwashing.db.DBManager;
-import ru.koigerov.carwashing.entities.Record;
 import ru.koigerov.carwashing.entities.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Date;
 
 public class UsersTableController {
 
@@ -29,16 +26,16 @@ public class UsersTableController {
     private TableColumn<?, ?> TableColumnAction;
 
     @FXML
-    private TableColumn<?, ?> TableColumnLogin;
+    private TableColumn<User, String> TableColumnLogin;
 
     @FXML
-    private TableColumn<?, ?> TableColumnPassword;
+    private TableColumn<User, String> TableColumnPassword;
 
     @FXML
-    private TableColumn<?, ?> TableColumnUserName;
+    private TableColumn<User, Boolean> TableColumnIsAdmin;
 
     @FXML
-    private TableView<User> TableViewLogs;
+    private TableView<User> TableViewUsers;
 
     @FXML
     void GoToAdminPanel(ActionEvent event) throws IOException {
@@ -52,39 +49,34 @@ public class UsersTableController {
 
     @FXML
     public void initialize() throws SQLException {
-        showRecord();
+        showUsers();
     }
 
-    private void showRecord() throws SQLException {
-        ObservableList<Record> list = getRecordList();
+    private void showUsers() throws SQLException {
+        ObservableList<User> list = getUserList();
 
-        TableColumnCar.setCellValueFactory(new PropertyValueFactory<Record, String>("car_name"));
-        TableColumnDuration.setCellValueFactory(new PropertyValueFactory<Record, String>("time"));
-        TableColumnDate.setCellValueFactory(new PropertyValueFactory<Record, LocalDate>("date"));
-        TableColumnService.setCellValueFactory(new PropertyValueFactory<Record, Integer>("service_id"));
-        TableColumnAction.setCellValueFactory(new PropertyValueFactory<Record, Date>("deletedAt"));
+        TableColumnLogin.setCellValueFactory(new PropertyValueFactory<User, String>("login"));
+        TableColumnPassword.setCellValueFactory(new PropertyValueFactory<User, String>("password"));
+        TableColumnIsAdmin.setCellValueFactory(new PropertyValueFactory<User, Boolean>("isAdmin"));
 
-        TableViewLogs.setItems(list);
+        TableViewUsers.setItems(list);
     }
 
-    public ObservableList<Record> getRecordList() throws SQLException {
-        ObservableList<Record> recordList = FXCollections.observableArrayList();
+    public ObservableList<User> getUserList() throws SQLException {
+        ObservableList<User> userList = FXCollections.observableArrayList();
 
-        var allRecords = DBManager.getAllRecords();
-        while (allRecords.next()) {
-            var record = new Record
+        var allUsers = DBManager.getAllUsers();
+        while (allUsers.next()) {
+            var user = new User
                     (
-                            allRecords.getInt("id"),
-                            allRecords.getInt("user_id"),
-                            allRecords.getString("car_name"),
-                            allRecords.getInt("service_id"),
-                            allRecords.getDate("date"),
-                            allRecords.getString("time"),
-                            allRecords.getTimestamp("deletedAt")
+                            allUsers.getInt("id"),
+                            allUsers.getString("login"),
+                            allUsers.getString("password"),
+                            allUsers.getBoolean("is_admin")
                     );
-            recordList.add(record);
+            userList.add(user);
         }
-        return recordList;
+        return userList;
     }
 
 }

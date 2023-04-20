@@ -13,7 +13,6 @@ import ru.koigerov.carwashing.entities.Service;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Date;
 
 public class ServiceTableController {
 
@@ -48,18 +47,18 @@ public class ServiceTableController {
 
     @FXML
     public void initialize() throws SQLException {
-        showRecord();
+        showService();
     }
 
-    private void showRecord() throws SQLException {
-        ObservableList<Service> list = getRecordList();
+    private void showService() throws SQLException {
+        ObservableList<Service> list = getServiceList();
 
         TableColumnDuration.setCellValueFactory(new PropertyValueFactory<Service, Integer>("duration"));
-        TableColumnService.setCellValueFactory(new PropertyValueFactory<Service, String>("service_name"));
+        TableColumnService.setCellValueFactory(new PropertyValueFactory<Service, String>("name"));
         TableViewLogs.setItems(list);
     }
 
-    public ObservableList<Service> getRecordList() throws SQLException {
+    public ObservableList<Service> getServiceList() throws SQLException {
         ObservableList<Service> serviceList = FXCollections.observableArrayList();
 
         var allService = DBManager.getAllService();
