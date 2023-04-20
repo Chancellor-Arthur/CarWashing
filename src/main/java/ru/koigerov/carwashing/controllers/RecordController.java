@@ -71,7 +71,7 @@ public class RecordController {
         var time = SelectTime.getValue();
         var service = SelectService.getValue();
 
-        if (car.equals("") || date.equals("") || time.equals("") || service.equals("")) {
+        if (car.equals("") || time.equals("") || service.equals("")) {
             Alerts.showErrorAlert("Должны быть заполнены все поля");
             return;
         }
@@ -109,8 +109,6 @@ public class RecordController {
             selectedDuration = selectedService.getInt("duration");
         }
 
-        Alerts.showErrorAlert(String.valueOf(selectedDuration));
-
         while (records.next()) {
             var services = DBManager.getServiceById(records.getInt("service_id"));
             if (services.next()) servicesDuration.put(records.getString("time"),
@@ -124,64 +122,46 @@ public class RecordController {
         for (var i = 0; i < times.size(); i++) {
             var duration = servicesDuration.get(times.get(i));
             if (duration == null) continue;
+
+            if (selectedDuration != 0) {
+                if (selectedDuration.compareTo(60) <= 0) {
+                    try {
+                        availableTimes.remove(times.get(i - 1));
+                    } catch (Exception err) {
+                        System.out.println(err);
+                    }
+                } else if (selectedDuration.compareTo(90) <= 0) {
+                    try {
+                        availableTimes.remove(times.get(i - 1));
+                        availableTimes.remove(times.get(i - 2));
+                    } catch (Exception err) {
+                        System.out.println(err);
+                    }
+
+                } else if (selectedDuration.compareTo(120) <= 0) {
+                    try {
+                        availableTimes.remove(times.get(i - 1));
+                        availableTimes.remove(times.get(i - 2));
+                        availableTimes.remove(times.get(i - 3));
+                    } catch (Exception err) {
+                        System.out.println(err);
+                    }
+                }
+            }
+
+
             if (duration.compareTo(30) <= 0) {
                 availableTimes.remove(times.get(i));
-                if (selectedDuration.compareTo(60) <= 0) {
-                    availableTimes.remove(times.get(i));
-                    availableTimes.remove(times.get(i - 1));
-                    i += 1;
-                    continue;
-                }
-                if (selectedDuration.compareTo(90) <= 0) {
-                    availableTimes.remove(times.get(i));
-                    availableTimes.remove(times.get(i - 1));
-                    availableTimes.remove(times.get(i - 2));
-                    i += 2;
-                    continue;
-                }
-                if (selectedDuration.compareTo(120) <= 0) {
-                    availableTimes.remove(times.get(i));
-                    availableTimes.remove(times.get(i - 1));
-                    availableTimes.remove(times.get(i - 2));
-                    availableTimes.remove(times.get(i - 3));
-                    i += 3;
-                }
-                continue;
-            }
-            if (duration.compareTo(60) <= 0) {
+            } else if (duration.compareTo(60) <= 0) {
                 availableTimes.remove(times.get(i));
                 availableTimes.remove(times.get(i + 1));
                 i += 1;
-                if (selectedDuration.compareTo(60) <= 0) {
-                    availableTimes.remove(times.get(i));
-                    availableTimes.remove(times.get(i - 1));
-                    i += 1;
-                    continue;
-                }
-                if (selectedDuration.compareTo(90) <= 0) {
-                    availableTimes.remove(times.get(i));
-                    availableTimes.remove(times.get(i - 1));
-                    availableTimes.remove(times.get(i - 2));
-                    i += 2;
-                    continue;
-                }
-                if (selectedDuration.compareTo(120) <= 0) {
-                    availableTimes.remove(times.get(i));
-                    availableTimes.remove(times.get(i - 1));
-                    availableTimes.remove(times.get(i - 2));
-                    availableTimes.remove(times.get(i - 3));
-                    i += 3;
-                }
-                continue;
-            }
-            if (selectedDuration.compareTo(90) <= 0) {
+            } else if (duration.compareTo(90) <= 0) {
                 availableTimes.remove(times.get(i));
                 availableTimes.remove(times.get(i + 1));
                 availableTimes.remove(times.get(i + 2));
                 i += 2;
-                continue;
-            }
-            if (selectedDuration.compareTo(120) <= 0) {
+            } else if (duration.compareTo(120) <= 0) {
                 availableTimes.remove(times.get(i));
                 availableTimes.remove(times.get(i + 1));
                 availableTimes.remove(times.get(i + 2));

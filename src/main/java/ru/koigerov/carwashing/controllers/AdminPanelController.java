@@ -97,7 +97,7 @@ public class AdminPanelController {
         TableColumnService.setCellValueFactory(new PropertyValueFactory<Record, Integer>("service"));
 
 
-        TableColumnAction.setCellFactory(ActionButtonTableCell.<Record>forTableColumn("Remove", (Record record) -> {
+        TableColumnAction.setCellFactory(ActionButtonTableCell.<Record>forTableColumn("Удалить", (Record record) -> {
             TableViewLogs.getItems().remove(record);
             try {
                 DBManager.removeRecord(record.getId());

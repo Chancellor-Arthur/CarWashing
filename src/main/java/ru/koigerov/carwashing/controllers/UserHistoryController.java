@@ -5,19 +5,21 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import ru.koigerov.carwashing.db.DBManager;
 import ru.koigerov.carwashing.entities.Record;
 import ru.koigerov.carwashing.entities.Service;
-import ru.koigerov.carwashing.store.Store;
+import ru.koigerov.carwashing.utils.ActionButtonTableCell;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserHistoryController {
 
@@ -25,7 +27,7 @@ public class UserHistoryController {
     private Button ButtonGoToRecord;
 
     @FXML
-    private TableColumn<?, ?> TableColumnAction;
+    private TableColumn<Record, Button> TableColumnAction;
 
     @FXML
     private TableColumn<Record, String> TableColumnCar;
@@ -43,6 +45,9 @@ public class UserHistoryController {
     private TableView<Record> TableViewRecord;
 
     @FXML
+    private ComboBox<String> ServiceFilter;
+
+    @FXML
     void GoToRecord(ActionEvent event) throws IOException {
         new SceneController().switchToRecordScene(event);
     }
@@ -50,24 +55,49 @@ public class UserHistoryController {
 
     @FXML
     public void initialize() throws SQLException {
-        showRecord();
+        ObservableList<String> serviceNameList = FXCollections.observableArrayList();
+        var service = DBManager.getAllService();
+        while (service.next()) serviceNameList.add(service.getString("service_name"));
+        serviceNameList.add("Не выбрано");
+        ServiceFilter.setItems(serviceNameList);
+
+        showRecord(null);
     }
 
-    private void showRecord() throws SQLException {
-        ObservableList<Record> list = getRecordList();
+    @FXML
+    void FilterServices(ActionEvent event) throws SQLException {
+        String service;
+        if (Objects.equals(ServiceFilter.getValue(), "Не выбрано")) service = null;
+        else service = ServiceFilter.getValue();
+        showRecord(service);
+    }
+
+    private void showRecord(String neededService) throws SQLException {
+        ObservableList<Record> list = getRecordList(neededService);
 
         TableColumnCar.setCellValueFactory(new PropertyValueFactory<Record, String>("car"));
         TableColumnDuration.setCellValueFactory(new PropertyValueFactory<Record, String>("time"));
         TableColumnDate.setCellValueFactory(new PropertyValueFactory<Record, LocalDate>("date"));
         TableColumnService.setCellValueFactory(new PropertyValueFactory<Record, Integer>("service"));
 
+
+        TableColumnAction.setCellFactory(ActionButtonTableCell.<Record>forTableColumn("Удалить", (Record record) -> {
+            TableViewRecord.getItems().remove(record);
+            try {
+                DBManager.removeRecord(record.getId());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return record;
+        }));
+
         TableViewRecord.setItems(list);
     }
 
-    public ObservableList<Record> getRecordList() throws SQLException {
+    public ObservableList<Record> getRecordList(String neededService) throws SQLException {
         ObservableList<Record> recordList = FXCollections.observableArrayList();
 
-        var allRecords = DBManager.getAllRecordByUserId(Store.userId);
+        var allRecords = DBManager.getAllRecords(false);
         var allServices = DBManager.getAllService();
         List<Service> services = new ArrayList<>();
 
@@ -93,7 +123,8 @@ public class UserHistoryController {
                             allRecords.getDate("date").toLocalDate(),
                             allRecords.getString("time")
                     );
-            recordList.add(record);
+            if (neededService == null) recordList.add(record);
+            if (Objects.equals(neededService, record.getService())) recordList.add(record);
         }
         return recordList;
     }
