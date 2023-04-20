@@ -57,7 +57,7 @@ public class ServiceTableController {
         TableColumnDuration.setCellValueFactory(new PropertyValueFactory<Service, Integer>("duration"));
         TableColumnService.setCellValueFactory(new PropertyValueFactory<Service, String>("name"));
 
-        TableColumnAction.setCellFactory(ActionButtonTableCell.<Service>forTableColumn("Remove", (Service service) -> {
+        TableColumnAction.setCellFactory(ActionButtonTableCell.<Service>forTableColumn("Удалить", (Service service) -> {
             TableViewLogs.getItems().remove(service);
             try {
                 DBManager.removeService(service.getId());

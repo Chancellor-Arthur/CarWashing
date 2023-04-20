@@ -60,7 +60,7 @@ public class UsersTableController {
         TableColumnPassword.setCellValueFactory(new PropertyValueFactory<User, String>("password"));
         TableColumnIsAdmin.setCellValueFactory(new PropertyValueFactory<User, Boolean>("isAdmin"));
 
-        TableColumnAction.setCellFactory(ActionButtonTableCell.<User>forTableColumn("Remove", (User user) -> {
+        TableColumnAction.setCellFactory(ActionButtonTableCell.<User>forTableColumn("Удалить", (User user) -> {
             TableViewUsers.getItems().remove(user);
             try {
                 DBManager.removeUser(user.getId());
